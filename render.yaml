@@ -1,0 +1,53 @@
+services:
+  - type: web
+    name: yunyao-agentops
+    runtime: docker
+    plan: free
+    repo: https://github.com/YunYao-9527/agentops
+    branch: main
+    healthCheckPath: /health
+    envVars:
+      - key: DATABASE_URL
+        value: sqlite+aiosqlite:///./agentops.db
+      - key: APP_ENV
+        value: production
+  - type: web
+    name: yunyao-customer-service
+    runtime: docker
+    plan: free
+    repo: https://github.com/YunYao-9527/customer-service-agent
+    branch: master
+    healthCheckPath: /health
+    envVars:
+      - key: DATABASE_URL
+        value: sqlite+aiosqlite:///./customer_service.db
+      - key: SEED_DEMO_DATA
+        value: "1"
+      - key: APP_ENV
+        value: production
+  - type: web
+    name: yunyao-weather
+    runtime: docker
+    plan: free
+    repo: https://github.com/YunYao-9527/weather-multi-agent-system
+    branch: main
+    healthCheckPath: /api/v1/health
+    envVars:
+      - key: AGENT_ENABLE_AUTH
+        value: "0"
+      - key: AGENT_PROFILE
+        value: dev
+      - key: PUBLIC_DEMO
+        value: "1"
+  - type: web
+    name: yunyao-cad-visual
+    runtime: docker
+    plan: free
+    repo: https://github.com/YunYao-9527/cad-drawing-retrieval-system
+    branch: main
+    healthCheckPath: /health
+    envVars:
+      - key: GALLERY_DIR
+        value: ./demo_gallery
+      - key: PUBLIC_DEMO
+        value: "1"
